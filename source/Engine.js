@@ -27,75 +27,78 @@ class Game
         });
 
         this.Canvas.addEventListener('mousemove', (mouse) => {
-            onMouseMove(mouse.offsetX, mouse.offsetY);
+            mouse.preventDefault();
+
+            this.X = mouse.offsetX;
+            this.Y = mouse.offsetY;
+            this.onMouseMove(this.X, this.Y);
         });
 
         this.Canvas.addEventListener('mousedown', (e) => {
             e.preventDefault();
 
-            onMouseDown();
+            this.onMouseDown();
         });
 
         this.Canvas.addEventListener('mouseup', (e) => {
             e.preventDefault();
 
-            onMouseUp();
+            this.onMouseUp();
         });
 
-        this.interval = setInterval(update, 20);
+        //properly add touch support in a future
+        this.Canvas.addEventListener('touchmove', (touch) => {
+            touch.preventDefault();
+
+            console.log("touch moving");
+        });
+
+        this.Canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+
+            this.onMouseDown();
+        });
+
+        this.Canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+
+            this.onMouseUp();
+        });
+
+        this.interval = setInterval(this.onUpdate, 20);
     }
 
     clear() 
     {
         this.Context.clearRect(0, 0, this.Width, this.Height);
     }
+
+    onUpdate
+    onMouseDown
+    onMouseUp
+    onMouseMove
 }
 
 class Cursor
 {
-    constructor(cX = 0, cY = 0, cWidth = 10, cHeight = 10, cColor = "blue")
+    constructor(gameInstance = null, X = 0, Y = 0, Width = 10, Height = 10)
     {
-        this.cX = cX;
-        this.cY = cY;
-        this.cWidth = cWidth;
-        this.cHeight = cHeight;
-        this.cColor = cColor;
+        this.X = X;
+        this.Y = Y;
+        this.Height = Height;
+        this.Width = Width;
+        this.game = gameInstance;
     }
+
+    clickColor = "red";
+    idleColor = "dodgerblue";
+    clickableColor = "green";
+
+    Color = this.idleColor;
 
     render()
     {
-        game.Context.fillStyle = this.cColor;
-        game.Context.fillRect(this.cX, this.cY, this.cWidth, this.cHeight);
+        this.game.Context.fillStyle = this.Color;
+        this.game.Context.fillRect(this.X, this.Y, this.Width, this.Height);
     }
-}
-
-function update()
-{
-    game.clear();
-    cum.render();
-}
-
-function onMouseDown()
-{
-    cum.cColor = "red";
-}
-
-function onMouseUp()
-{
-    cum.cColor = "blue";
-}
-
-function onMouseMove(x, y)
-{
-    cum.cX = x;
-    cum.cY = y;
-}
-
-var game = new Game();
-
-var cum = new Cursor();
-
-function startGame()
-{
-    game.start();
 }
