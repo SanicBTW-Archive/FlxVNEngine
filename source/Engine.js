@@ -73,10 +73,10 @@ class Game
         this.Context.clearRect(0, 0, this.Width, this.Height);
     }
 
-    onUpdate
-    onMouseDown
-    onMouseUp
-    onMouseMove
+    onUpdate;
+    onMouseDown;
+    onMouseUp;
+    onMouseMove;
 }
 
 class Cursor
@@ -85,8 +85,8 @@ class Cursor
     {
         this.X = X;
         this.Y = Y;
-        this.Height = Height;
         this.Width = Width;
+        this.Height = Height;
         this.game = gameInstance;
     }
 
@@ -100,5 +100,28 @@ class Cursor
     {
         this.game.Context.fillStyle = this.Color;
         this.game.Context.fillRect(this.X, this.Y, this.Width, this.Height);
+    }
+}
+
+//might be improved in the future
+class TextInstance
+{
+    constructor(gameInstance = null, X = 0, Y = 0, FontSize = "30px")
+    {
+        this.X = X;
+        this.Y = Y;
+        this.FontSize = FontSize;
+        this.game = gameInstance;
+    }
+
+    Text;
+    Font = "Arial";
+    fgColor = "black";
+
+    render()
+    {
+        this.game.Context.font = this.FontSize + " " + this.Font;
+        this.game.Context.fillStyle = this.fgColor;
+        this.game.Context.fillText(this.Text, this.X, this.Y);
     }
 }
