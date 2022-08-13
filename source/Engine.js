@@ -77,6 +77,7 @@ class Game
     onMouseDown;
     onMouseUp;
     onMouseMove;
+    renderObjects = [];
 }
 
 class Cursor

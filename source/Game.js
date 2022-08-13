@@ -2,10 +2,11 @@ var game = new Game();
 game.onUpdate = function(){
     game.clear();
 
-    mouseState.render();
-    mousePos.render();
-
-    cum.render();
+    //maybe its a bad way to do?
+    for(var i in game.renderObjects)
+    {
+        game.renderObjects[i].render();
+    }
 }
 
 game.onMouseDown = function(){
@@ -36,6 +37,8 @@ mouseState.Text = "Mouse Down: false";
 
 var mousePos = new TextInstance(game, 40, 80, "25px");
 mousePos.Text = "Mouse Pos: 0, 0";
+
+game.renderObjects.push(mouseState, mousePos, cum);
 
 function startGame()
 {
