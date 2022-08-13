@@ -1,8 +1,8 @@
-var game = new Game();
+var game = new Game("engine-content");
 game.onUpdate = function(){
     game.clear();
 
-    //maybe its a bad way to do?
+    //render order is set on the push method below
     for(var i in game.renderObjects)
     {
         game.renderObjects[i].render();
@@ -40,7 +40,7 @@ mousePos.Text = "Mouse Pos: 0, 0";
 
 game.renderObjects.push(mouseState, mousePos, cum);
 
-function startGame()
+function gameStart()
 {
     game.start();
 }

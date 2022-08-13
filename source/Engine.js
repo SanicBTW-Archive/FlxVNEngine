@@ -4,20 +4,28 @@ class Game
     Canvas = document.createElement('canvas');
     Context = this.Canvas.getContext('2d');
 
-    constructor(Width = 1280, Height = 720)
+    constructor(Parent = null)
     {
-        this.Width = Width;
-        this.Height = Height;
+        this.Width = (window.innerWidth - 106) + "px";
+        this.Height = window.innerHeight;
+
+        this.Canvas.width = this.Width;
+        this.Canvas.height = this.Height;
+        this.Canvas.style = `transform: translateZ(0px); margin-left: 106px; margin-top: 0px;`;
+        this.Canvas.style.backgroundColor = 'white';
+
+        if(Parent != null)
+        {
+            document.getElementById(Parent).appendChild(this.Canvas);
+        }
+        else
+        {
+            document.body.appendChild(this.Canvas);
+        }
     }
 
     start()
     {
-        this.Canvas.width = this.Width;
-        this.Canvas.height = this.Height;
-        this.Canvas.style.backgroundColor = 'white';
-
-        document.getElementById('mainDiv').appendChild(this.Canvas);
-
         this.Canvas.addEventListener('mouseenter', (e) => {
             e.preventDefault();
         });
@@ -65,6 +73,13 @@ class Game
             this.onMouseUp();
         });
 
+        window.addEventListener('resize', (res) => {
+            res.preventDefault();
+
+            //this.Canvas.width = (window.innerWidth >= 1280 ? 1280 : window.innerWidth);
+            //this.onWindowResize(, window.innerHeight);
+        });
+
         this.interval = setInterval(this.onUpdate, 20);
     }
 
@@ -77,6 +92,7 @@ class Game
     onMouseDown;
     onMouseUp;
     onMouseMove;
+    onWindowResize;
     renderObjects = [];
 }
 
